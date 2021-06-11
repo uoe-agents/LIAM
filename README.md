@@ -21,7 +21,7 @@ pip install gym==0.9.4
 pip install seaborn
 git clone git@github.com:uoe-agents/LIAM.git
 cd LIAM
-cp tasks/simple_reference.py ../multiagent-particle-envs/multiagent/scenarios/.
+cp multi_agent_env/simple_reference.py ../multiagent-particle-envs/multiagent/scenarios/.
 ```
 ## Execution
 ```
