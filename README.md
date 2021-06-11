@@ -31,7 +31,7 @@ python run_tests.py 0
 
 If you use this repository in your work, please consider citing the [LIAM paper](https://arxiv.org/abs/2006.09447)
 ```tex
-@article{papoudakis2020local,
+@article{papoudakis2021local,
   title={Local Information Agent Modelling in Partially-Observable Environments},
   author={Papoudakis, Georgios and Christianos, Filippos and Albrecht, Stefano V},
   journal={arXiv preprint arXiv:2006.09447},
