@@ -6,10 +6,6 @@ The code is written in python 3, using Pytorch for the implementation of the dee
 ```
 virtualenv -p python3 LIAM_ENV
 cd LIAM_ENV
-```
-Unzip the LIAM_code folder inside the LIAM_ENV
-
-```
 source bin/activate
 pip install torch
 pip install tensorflow
@@ -23,6 +19,7 @@ pip install -e .
 cd ..
 pip install gym==0.9.4
 pip install seaborn
+git clone git@github.com:uoe-agents/LIAM.git
 cd LIAM_code
 cp tasks/simple_reference.py ../multiagent-particle-envs/multiagent/scenarios/.
 ```
