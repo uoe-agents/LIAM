@@ -27,3 +27,14 @@ cp multi_agent_env/simple_reference.py ../multiagent-particle-envs/multiagent/sc
 ```
 python run_tests.py 0
 ```
+## Citating LIAM
+
+If you use this repository in your work, please consider citing the [LIAM paper](https://arxiv.org/abs/2006.09447)
+```tex
+@article{papoudakis2020local,
+  title={Local Information Agent Modelling in Partially-Observable Environments},
+  author={Papoudakis, Georgios and Christianos, Filippos and Albrecht, Stefano V},
+  journal={arXiv preprint arXiv:2006.09447},
+  year={2021}
+}
+```
