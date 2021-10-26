@@ -9,8 +9,7 @@ class A2C:
 
         self.actor_critic = PolicyNet(input_dim + embedding_dim, hidden_dim, act_dim, act_dim)
         self.encoder = Encoder(input_dim + 2 * act_dim, hidden_dim, embedding_dim)
-        self.decoder = Decoder(embedding_dim, embedding_dim + modelled_obs_dim, hidden_dim, modelled_obs_dim,
-                               modelled_act_dim)
+        self.decoder = Decoder(embedding_dim, hidden_dim, modelled_obs_dim, modelled_act_dim)
 
         self.optimizer1 = optim.Adam(list(self.actor_critic.parameters()), lr=lr1)
         self.optimizer2 = optim.Adam(list(self.encoder.parameters()) + list(self.decoder.parameters()), lr=lr2)
@@ -58,9 +57,7 @@ class A2C:
         return log_prob1, log_prob2, entropy, value, rec_loss1.mean(), rec_loss2.mean()
 
     def eval_decoding(self, embeddings, modelled_obs, modelled_act):
-        dec_input1 = embeddings
-        dec_input2 = torch.cat((dec_input1, modelled_obs), dim=-1)
-        out1, probs1, probs2 = self.decoder(embeddings, dec_input2)
+        out1, probs1, probs2 = self.decoder(embeddings)
         recon_loss1 = 0.5 * ((out1 - modelled_obs) ** 2).sum(-1)
         recon_loss2 = -torch.log(torch.sum(modelled_act[:, :, :5] * probs1, dim=-1))
         recon_loss2 -=torch.log(torch.sum(modelled_act[:, :, 5:] * probs2, dim=-1))

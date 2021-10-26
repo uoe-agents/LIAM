@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
     params = dict(
         {'cuda': [False, ],
-         'num_env_steps': [30e6],
+         'num_env_steps': [40e6],
          'episode_length': [25, ],
          'num_processes': [10],
          'lr1': [3e-4],
