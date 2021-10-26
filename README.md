@@ -1,40 +1,30 @@
 # Local Information Agent Modelling (LIAM)
 
-Source code of our LIAM implementation in the double speaker-listener environment.
+Source code of LIAM from Agent Modelling under Partial-Observability for Deep Reinforcement Learning (NeurIPS 2021).
+
 The code is written in python 3, using Pytorch for the implementation of the deep networks. Other important packages are OpenAI Baselines, OpenAI gym, and the Multi-agent Particle Environment.
 ## Installation
+To install the required codebase, it is recommended to create a conda or a virtual environment. Then, run the following command
 ```
-virtualenv -p python3 LIAM_ENV
-cd LIAM_ENV
-source bin/activate
-pip install torch
-pip install tensorflow
-git clone https://github.com/openai/baselines.git
-cd baselines
-pip install -e .
-cd ..
-git clone https://github.com/shariqiqbal2810/multiagent-particle-envs.git
-cd multiagent-particle-envs
-pip install -e .
-cd ..
-pip install gym==0.9.4
-pip install seaborn
-git clone git@github.com:uoe-agents/LIAM.git
-cd LIAM
-cp multi_agent_env/simple_reference.py ../multiagent-particle-envs/multiagent/scenarios/.
+./install.sh
 ```
 ## Execution
+
+The file `run_tests.py` contains the hyperparameters that were used in the experiments. Different hyperparameters can be used by modifying this file.
+This file will generate all the possible hyperparameter configurations based on the specified values.
+To train LIAM run the following command
 ```
 python run_tests.py 0
 ```
-## Citating LIAM
+where `0` indicates that the first configuration of hyperparameters will be used for training.
+## Citing LIAM
 
 If you use this repository in your work, please consider citing the [LIAM paper](https://arxiv.org/abs/2006.09447)
 ```tex
-@article{papoudakis2021local,
-  title={Local Information Agent Modelling in Partially-Observable Environments},
+@article{papoudakis2021agent,
+  title={Agent Modelling under Partial Observability for Deep Reinforcement Learning},
   author={Papoudakis, Georgios and Christianos, Filippos and Albrecht, Stefano V.},
-  journal={arXiv preprint arXiv:2006.09447},
+  journal={Advances in Neural Information Processing Systems},
   year={2021}
 }
 ```
