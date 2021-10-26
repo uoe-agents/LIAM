@@ -17,6 +17,7 @@ To train LIAM run the following command
 python run_tests.py 0
 ```
 where `0` indicates that the first configuration of hyperparameters will be used for training.
+
 ## Citing LIAM
 
 If you use this repository in your work, please consider citing the [LIAM paper](https://arxiv.org/abs/2006.09447)
@@ -28,3 +29,8 @@ If you use this repository in your work, please consider citing the [LIAM paper]
   year={2021}
 }
 ```
+## Acknowledgements
+
+For LIAM's implementation, we use the MPE environment from this [source](https://github.com/shariqiqbal2810/multiagent-particle-envs).
+
+For the implementation of MADDPG algorithm we use the source code from this [source](https://github.com/shariqiqbal2810/maddpg-pytorch)
