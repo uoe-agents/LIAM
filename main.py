@@ -138,7 +138,6 @@ def main(args):
         if episode_passed % 100 == 0:
             returns = evaluate(agent, args, fixed_agents)
             results.append(returns)
-            print(results)
             data = {
                 'hyperparameters': args,
                 'results': results}
