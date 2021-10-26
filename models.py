@@ -26,7 +26,6 @@ class Encoder(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim):
         super(Encoder, self).__init__()
         self.lstm = nn.LSTM(input_dim, hidden_dim)
-        # create network layers
         self.fc1 = nn.Linear(hidden_dim, hidden_dim)
         self.m_z = nn.Linear(hidden_dim, output_dim)
 
@@ -35,34 +34,28 @@ class Encoder(nn.Module):
             x = x.unsqueeze(0)
         h, hidden = self.lstm(x, hidden)
         h = F.relu(self.fc1(h))
-        m_z = self.m_z(h)
-        return m_z, hidden
+        embedding = self.m_z(h)
+        return embedding, hidden
 
 
 class Decoder(nn.Module):
-    def __init__(self, input_dim1, input_dim2, hidden_dim, output_dim1, output_dim2):
+    def __init__(self, input_dim1, hidden_dim, output_dim1, output_dim2):
         super(Decoder, self).__init__()
 
         self.fc1 = nn.Linear(input_dim1, hidden_dim)
         self.fc2 = nn.Linear(hidden_dim, hidden_dim)
         self.fc3 = nn.Linear(hidden_dim, output_dim1)
+        self.fc4 = nn.Linear(hidden_dim, output_dim2)
+        self.fc5 = nn.Linear(hidden_dim, output_dim2)
 
-        self.fc4 = nn.Linear(input_dim2, hidden_dim)
-        self.fc5 = nn.Linear(hidden_dim, hidden_dim)
-        self.fc6 = nn.Linear(hidden_dim, output_dim2)
-        self.fc7 = nn.Linear(hidden_dim, output_dim2)
+    def forward(self, x):
+        h = F.relu(self.fc1(x))
+        h = F.relu(self.fc2(h))
+        out = self.fc3(h)
+        probs1 = F.softmax(self.fc4(h), dim=-1)
+        probs2 = F.softmax(self.fc5(h), dim=-1)
 
-    def forward(self, x1, x2):
-        h1 = F.relu(self.fc1(x1))
-        h1 = F.relu(self.fc2(h1))
-        out1 = self.fc3(h1)
-
-        h2 = F.relu(self.fc4(x2))
-        h2 = F.relu(self.fc5(h2))
-        probs1 = F.softmax(self.fc6(h2), dim=-1)
-        probs2 = F.softmax(self.fc7(h2), dim=-1)
-
-        return out1, probs1, probs2
+        return out, probs1, probs2
 
 
 class MLP(nn.Module):
