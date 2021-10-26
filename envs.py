@@ -1,17 +1,12 @@
 from baselines.common.vec_env import VecEnv
-from baselines.common.vec_env.util import copy_obs_dict, dict_to_obs, obs_space_info
 import numpy as np
+
 
 class DummyVecEnv(VecEnv):
     def __init__(self, env_fns):
         self.envs = env_fns
         env = self.envs[0]
         VecEnv.__init__(self, len(env_fns), env.observation_space, env.action_space)
-        if all([hasattr(a, 'adversary') for a in env.agents]):
-            self.agent_types = ['adversary' if a.adversary else 'agent' for a in
-                                env.agents]
-        else:
-            self.agent_types = ['agent' for _ in env.agents]
         self.ts = np.zeros(len(self.envs), dtype='int')
         self.actions = None
 
