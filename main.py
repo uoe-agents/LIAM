@@ -8,6 +8,7 @@ import pickle
 import uuid
 from ddpg import DDPG
 import os
+from standardise_stream import RunningMeanStd
 
 
 def make_env(scenario_name, benchmark=False, discrete_action=True):
@@ -60,6 +61,7 @@ def main(args):
                 args['entropy_coef'],
                 args['value_loss_coef'],
                 max_grad_norm=args['max_grad_norm'])
+    standardise = RunningMeanStd(shape=1)
 
     num_batches = args['episode_length'] // args['batch_size']
     num_updates = int(args['num_env_steps'] // num_batches // args['batch_size'] // args['num_processes'])
@@ -132,7 +134,7 @@ def main(args):
                 last_value = agent.compute_value(next_agent_obs, actions, hidden)
                 
             batches[step].value_preds[-1] = last_value.detach()
-            batches[step].compute_returns(args['gamma'], args['gae_lambda'])
+            batches[step].compute_returns(args['gamma'], args['gae_lambda'], standardise)
 
         agent.update(batches)
         if episode_passed % 100 == 0:
@@ -141,7 +143,6 @@ def main(args):
             data = {
                 'hyperparameters': args,
                 'results': results}
-
             pickle.dump(data, open('results/' + str(name) + '.p', "wb"))
             agent.save_params(str(name))
 

@@ -39,16 +39,19 @@ class RolloutStorage(object):
         self.modelled_acts[self.step].copy_(modelled_acts.squeeze(1))
         self.step = (self.step + 1) % self.num_steps
 
-    def compute_returns(self, gamma, gae_lambda):
-
-        norm_rewards1 = (self.rewards - self.rewards.mean()) / (self.rewards.std() + 1e-5)
+    def compute_returns(self, gamma, gae_lambda, standardise):
 
         gae = 0
+        value_pred = self.value_preds * torch.sqrt(standardise.var) + standardise.mean
+        norm_rewards = self.rewards
         for step in reversed(range(self.num_steps)):
-            delta = norm_rewards1[step] + gamma * self.value_preds[step + 1] * (1. - self.dones[step]) - \
+            delta = norm_rewards[step] + gamma * self.value_preds[step + 1] * (1. - self.dones[step]) - \
                     self.value_preds[step]
             gae = delta + gamma * gae_lambda * (1 - self.dones[step]) * gae
             self.returns[step] = gae + self.value_preds[step]
+
+        standardise.update(self.returns[:-1])
+        self.returns = (self.returns - standardise.mean) / torch.sqrt(standardise.var)
 
     def sample(self):
         return self.obs, self.actions1, self.actions2, self.value_preds[:-1].detach(), self.returns[:-1].detach(), \
