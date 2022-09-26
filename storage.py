@@ -45,10 +45,10 @@ class RolloutStorage(object):
         value_pred = self.value_preds * torch.sqrt(standardise.var) + standardise.mean
         norm_rewards = self.rewards
         for step in reversed(range(self.num_steps)):
-            delta = norm_rewards[step] + gamma * self.value_preds[step + 1] * (1. - self.dones[step]) - \
-                    self.value_preds[step]
+            delta = norm_rewards[step] + gamma * value_pred[step + 1] * (1. - self.dones[step]) - \
+                    value_pred[step]
             gae = delta + gamma * gae_lambda * (1 - self.dones[step]) * gae
-            self.returns[step] = gae + self.value_preds[step]
+            self.returns[step] = gae + value_pred[step]
 
         standardise.update(self.returns[:-1])
         self.returns = (self.returns - standardise.mean) / torch.sqrt(standardise.var)
