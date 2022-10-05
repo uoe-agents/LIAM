@@ -68,7 +68,6 @@ class Scenario(BaseScenario):
         else:
             return 0
 
-
     def is_collision(self, agent1, agent2):
         delta_pos = agent1.state.p_pos - agent2.state.p_pos
         dist = np.sqrt(np.sum(np.square(delta_pos)))
@@ -104,7 +103,8 @@ class Scenario(BaseScenario):
             rew += 1
         if num_collisions > 1:
             rew -= 1
-
+        if agent.state.p_pos[0] > 0.99 or agent.state.p_pos[0] < -0.99 or agent.state.p_pos[1] < -0.99 or agent.state.p_pos[1] > 0.99:
+            rew -=10
         return rew
 
     def adversary_reward(self, agent, world):
@@ -131,6 +131,7 @@ class Scenario(BaseScenario):
 
     def observation(self, agent, world):
         # get positions of all entities in this agent's reference frame
+        comm = []
         if agent in self.good_agents(world):
             entity_pos = []
             for entity in world.landmarks:

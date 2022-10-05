@@ -12,7 +12,7 @@ To install the required codebase, it is recommended to create a conda or a virtu
 
 The file `run_tests.py` contains the hyperparameters that were used in the experiments. Different hyperparameters can be used by modifying this file.
 This file will generate all the possible hyperparameter configurations based on the specified values.
-To train LIAM run the following command
+To train LIAM run the following command in one of the three folders
 ```
 python run_tests.py 0
 ```
